@@ -9,20 +9,20 @@ Steps to Setup
 2.	2.	git clone https://github.com/mdsobujislam/MiniLibrary.git
 3.	cd mini-library
 4.	Configure the database:
-o	Open appsettings.json file.
-o	Update the connection string under ConnectionStrings:DefaultConnection to point to your SQL Server instance. Example:
-o	"ConnectionStrings": {
-o	  "DefaultConnection": "Server=YOUR_SERVER_NAME;Database=MiniLibraryDb;Trusted_Connection=True;"
-o	}
+*	Open appsettings.json file.
+*	Update the connection string under ConnectionStrings:DefaultConnection to point to your SQL Server instance. Example:
+	"ConnectionStrings": {
+	  "DefaultConnection": "Server=YOUR_SERVER_NAME;Database=MiniLibraryDb;Trusted_Connection=True;"
+  }
 5.	Create the database schema:
-o	Run the SQL script located in Database/InitScript.sql on your SQL Server instance to create necessary tables and seed data.
+*	Run the SQL script located in Database/InitScript.sql on your SQL Server instance to create necessary tables and seed data.
 6.	Restore dependencies:
 7.	dotnet restore
 8.	Run the project:
 9.	dotnet run
 The API will be available at https://localhost:5001 (or the port shown in your console).
 10.	Open Swagger UI:
-o	Navigate to https://localhost:5001/swagger in your browser to explore and test API endpoints.
+*	Navigate to https://localhost:5001/swagger in your browser to explore and test API endpoints.
 ________________________________________
 Sample Login Credentials
 To access the protected APIs, you must first authenticate and obtain a JWT token.
@@ -37,10 +37,10 @@ How to login
 •	  "password": "123456"
 •	}
 •	Response:
-o	On successful login, you will receive a JWT token in the response body:
-o	{
-o	  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-o	}
+*	On successful login, you will receive a JWT token in the response body:
+	{
+	  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+	}
 Use this token in the Authorization header (with the prefix Bearer ) for all other API requests.
 ________________________________________
 API Workflow Documentation
@@ -82,10 +82,10 @@ Validations: max 5 active borrowings per member, copies must be available.
 POST /api/Borrowings/{borrowId}/return marks books as returned and updates CopiesAvailable.
 •	Borrow Report:
 GET /api/Borrowings/report?startDate=yyyy-MM-dd&endDate=yyyy-MM-dd returns stats:
-o	Total Books Borrowed
-o	Total Books Returned
-o	Active Borrow Records
-o	Most Borrowed Book
+*	Total Books Borrowed
+*	Total Books Returned
+*	Active Borrow Records
+*	Most Borrowed Book
 ________________________________________
 5. Error Handling
 •	API returns appropriate HTTP status codes (400, 401, 404, 500) with error messages.
