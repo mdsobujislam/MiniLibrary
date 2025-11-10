@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using iTextSharp.text;
 using Microsoft.Extensions.Configuration;
 using MiniLibrary.Application.Interfaces;
 using MiniLibrary.Domain.Entities;
@@ -54,30 +55,48 @@ VALUES (@Title,@Author,@ISBN,@Category,@CopiesAvailable,@PublishedYear,@Status,0
             }
         }
 
-        public async Task<(IEnumerable<Book> Items, int Total)> GetBooksAsync(string? title, string? category, string? isbn)
+        public async Task<(IEnumerable<Book> Items, int Total)> GetBooksAsync(
+    string? title, string? category, string? isbn, int Page = 1, int PageSize = 10)
         {
             try
             {
                 using (var connection = new SqlConnection(_connectionString))
                 {
-                    connection.Open();
                     var where = "WHERE IsDeleted = 0";
                     var parameters = new DynamicParameters();
+
                     if (!string.IsNullOrWhiteSpace(title))
                     {
-                        where += " AND Title LIKE @Title"; parameters.Add("Title", $"%{title}%");
+                        where += " AND Title LIKE @Title";
+                        parameters.Add("Title", $"%{title}%");
                     }
-                    if (!string.IsNullOrWhiteSpace(category)) { where += " AND Category LIKE @Category"; parameters.Add("Category", $"%{category}%"); }
-                    if (!string.IsNullOrWhiteSpace(isbn)) { where += " AND ISBN LIKE @ISBN"; parameters.Add("ISBN", $"%{isbn}%"); }
+
+                    if (!string.IsNullOrWhiteSpace(category))
+                    {
+                        where += " AND Category LIKE @Category";
+                        parameters.Add("Category", $"%{category}%");
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(isbn))
+                    {
+                        where += " AND ISBN LIKE @ISBN";
+                        parameters.Add("ISBN", $"%{isbn}%");
+                    }
 
                     var countSql = $"SELECT COUNT(*) FROM Books {where};";
-                    var sql = $@" {countSql} SELECT * FROM Books {where} ORDER BY Title OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY;";
+                    var sql = $@"
+{countSql}
+SELECT * FROM Books {where}
+ORDER BY Title
+OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY;";
+
+                    parameters.Add("Offset", (Page - 1) * PageSize);
+                    parameters.Add("PageSize", PageSize);
 
                     using var multi = await connection.QueryMultipleAsync(sql, parameters);
                     var total = await multi.ReadSingleAsync<int>();
                     var items = await multi.ReadAsync<Book>();
                     return (items, total);
-
                 }
             }
             catch (Exception ex)
@@ -85,6 +104,7 @@ VALUES (@Title,@Author,@ISBN,@Category,@CopiesAvailable,@PublishedYear,@Status,0
                 throw new Exception("Error retrieving books", ex);
             }
         }
+
 
         public async Task SoftDeleteBookAsync(int id)
         {

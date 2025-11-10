@@ -9,7 +9,7 @@ namespace MiniLibrary.Application.Interfaces
 {
     public interface IBooksRepository
     {
-        Task<(IEnumerable<Book> Items, int Total)> GetBooksAsync(string? title, string? category, string? isbn);
+        Task<(IEnumerable<Book> Items, int Total)> GetBooksAsync(string? title, string? category, string? isbn, int page, int pageSize);
         Task<Book?> GetBookByIdAsync(int id);
         Task<int> AddBookAsync(Book book);
         Task UpdateBookAsync(Book book);
