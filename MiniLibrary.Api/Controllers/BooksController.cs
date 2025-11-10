@@ -11,14 +11,14 @@ namespace MiniLibrary.Api.Controllers
     [Authorize]
     public class BooksController : ControllerBase
     {
-        private readonly ILibraryRepository _repo;
-        public BooksController(ILibraryRepository repo) { _repo = repo; }
+        private readonly IBooksRepository _repo;
+        public BooksController(IBooksRepository repo) { _repo = repo; }
 
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] string? title, [FromQuery] string? category, [FromQuery] string? isbn, [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
-            var (items, total) = await _repo.GetBooksAsync(title, category, isbn, page, pageSize);
-            return Ok(new { Items = items, Total = total, Page = page, PageSize = pageSize });
+            var (items, total) = await _repo.GetBooksAsync(title, category, isbn);
+            return Ok(new { Items = items, Total = total });
         }
 
         [HttpGet("{id}")]

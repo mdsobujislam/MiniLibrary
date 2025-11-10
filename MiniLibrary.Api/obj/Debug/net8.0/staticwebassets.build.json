@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "1M6yYhsRdaqEHtuF8Anve5r8WJ3v0lvAgXCzzuyRTJs=",
+  "Source": "MiniLibrary.Api",
+  "BasePath": "_content/MiniLibrary.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

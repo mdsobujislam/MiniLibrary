@@ -12,9 +12,9 @@ namespace MiniLibrary.Infrastructure.Services
 {
     public class LibraryService : ILibraryService
     {
-        private readonly ILibraryRepository _repo;
+        private readonly IBorrowRepository _repo;
         private readonly IConfiguration _cfg;
-        public LibraryService(ILibraryRepository repo, IConfiguration cfg) { _repo = repo; _cfg = cfg; }
+        public LibraryService(IBorrowRepository repo, IConfiguration cfg) { _repo = repo; _cfg = cfg; }
 
         public async Task<Borrow> BorrowBooksAsync(BorrowRequestDto dto)
         {

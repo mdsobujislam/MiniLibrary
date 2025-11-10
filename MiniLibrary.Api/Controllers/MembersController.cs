@@ -11,8 +11,8 @@ namespace MiniLibrary.Api.Controllers
     [Authorize]
     public class MembersController : ControllerBase
     {
-        private readonly ILibraryRepository _repo;
-        public MembersController(ILibraryRepository repo) { _repo = repo; }
+        private readonly IMembersRepository _repo;
+        public MembersController(IMembersRepository repo) { _repo = repo; }
 
         [HttpGet] public async Task<IActionResult> Get() => Ok(await _repo.GetMembersAsync());
         [HttpGet("{id}")] public async Task<IActionResult> Get(int id) { var m = await _repo.GetMemberByIdAsync(id); if (m == null) return NotFound(); return Ok(m); }

@@ -12,8 +12,8 @@ namespace MiniLibrary.Api.Controllers
     public class BorrowController : ControllerBase
     {
         private readonly ILibraryService _service;
-        private readonly ILibraryRepository _repo;
-        public BorrowController(ILibraryService service, ILibraryRepository repo) { _service = service; _repo = repo; }
+        private readonly IBorrowRepository _repo;
+        public BorrowController(ILibraryService service, IBorrowRepository repo) { _service = service; _repo = repo; }
 
         [HttpPost]
         public async Task<IActionResult> Borrow([FromBody] BorrowRequestDto dto)

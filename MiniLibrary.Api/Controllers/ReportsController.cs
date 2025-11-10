@@ -10,8 +10,9 @@ namespace MiniLibrary.Api.Controllers
     [Authorize]
     public class ReportsController : ControllerBase
     {
-        private readonly ILibraryRepository _repo;
-        public ReportsController(ILibraryRepository repo) { _repo = repo; }
+        private readonly IBorrowRepository _repo;
+        private readonly IBooksRepository _repoBook;
+        public ReportsController(IBorrowRepository repo, IBooksRepository repoBook) { _repo = repo;_repoBook = repoBook; }
 
         [HttpGet("borrow-summary")]
         public async Task<IActionResult> BorrowSummary([FromQuery] DateTime from, [FromQuery] DateTime to)
@@ -24,7 +25,7 @@ namespace MiniLibrary.Api.Controllers
             string? topTitle = null;
             if (top != null)
             {
-                var bk = await _repo.GetBookByIdAsync(top.BookId);
+                var bk = await _repoBook.GetBookByIdAsync(top.BookId);
                 topTitle = bk?.Title;
             }
             return Ok(new { TotalBooksBorrowed = totalBorrowed, TotalBooksReturned = totalReturned, ActiveBorrowRecords = active, MostBorrowedBookTitle = topTitle });

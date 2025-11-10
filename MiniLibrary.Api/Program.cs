@@ -3,7 +3,6 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MiniLibrary.Application.Interfaces;
 using MiniLibrary.Infrastructure.Background;
-using MiniLibrary.Infrastructure.Data;
 using MiniLibrary.Infrastructure.Repositories;
 using MiniLibrary.Infrastructure.Services;
 using System.Text;
@@ -54,8 +53,9 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 // ✅ Dependency Injection
-builder.Services.AddSingleton<IDbConnectionFactory, SqlServerConnectionFactory>();
-builder.Services.AddScoped<ILibraryRepository, LibraryRepository>();
+builder.Services.AddScoped<IBooksRepository,BooksRepository>();
+builder.Services.AddScoped<IMembersRepository,MembersRepository>();
+builder.Services.AddScoped<IBorrowRepository,BorrowRepository>();
 builder.Services.AddScoped<ILibraryService, LibraryService>();
 builder.Services.AddSingleton<JwtService>();
 builder.Services.AddHostedService<OverdueNotifierHostedService>();
