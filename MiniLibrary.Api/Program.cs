@@ -13,7 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
-// ✅ Add Swagger with JWT Authorize Button
+// Add Swagger with JWT Authorize Button
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
@@ -22,7 +22,7 @@ builder.Services.AddSwaggerGen(options =>
         Version = "v1"
     });
 
-    // 🔒 Add JWT Security Definition
+    // Add JWT Security Definition
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,
@@ -32,7 +32,7 @@ builder.Services.AddSwaggerGen(options =>
         Scheme = "Bearer"
     });
 
-    // 🔐 Add Security Requirement
+    // Add Security Requirement
     options.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
@@ -52,7 +52,7 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-// ✅ Dependency Injection
+// Dependency Injection
 builder.Services.AddScoped<IBooksRepository,BooksRepository>();
 builder.Services.AddScoped<IMembersRepository,MembersRepository>();
 builder.Services.AddScoped<IBorrowRepository,BorrowRepository>();
@@ -60,7 +60,7 @@ builder.Services.AddScoped<ILibraryService, LibraryService>();
 builder.Services.AddSingleton<JwtService>();
 builder.Services.AddHostedService<OverdueNotifierHostedService>();
 
-// ✅ JWT Authentication Configuration
+// JWT Authentication Configuration
 var jwt = builder.Configuration.GetSection("Jwt");
 var key = Encoding.UTF8.GetBytes(jwt["Key"]!);
 
@@ -87,7 +87,7 @@ builder.Services.AddAuthentication(options =>
 
 var app = builder.Build();
 
-// ✅ Middleware
+// Middleware
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
